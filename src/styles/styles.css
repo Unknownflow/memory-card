@@ -1,0 +1,48 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	padding: 20px;
+	justify-content: center;
+	text-align: center;
+	background-color: #696969;
+}
+
+.header {
+	background-color: #b9bcc2;
+	display: flex;
+	width: 80vw;
+	justify-content: space-between;
+	font-weight: bold;
+	font-size: 24px;
+	padding: 20px;
+}
+
+.scoreboard {
+	display: flex;
+	gap: 15px;
+}
+
+.cardSelection {
+	display: flex;
+	flex-direction: row;
+	padding: 40px;
+	gap: 40px;
+}
+
+.card {
+	width: 200px;
+	height: 200px;
+	background-color: #b9bcc2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cardName {
+	font-size: 16px;
+	font-weight: bold;
+}
