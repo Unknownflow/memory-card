@@ -1,6 +1,8 @@
-function Result({ result }) {
+function Result({ gameStatus }) {
   return (
-    
+    <div>
+      {gameStatus}
+    </div>
   )
 }
 
