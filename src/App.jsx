@@ -4,12 +4,12 @@ import './styles/styles.css'
 import Card from "./components/Card";
 import Result from "./components/Result";
 import Restart from "./components/Restart";
+import CardSelection from "./components/CardSelection";
 
 function App() {
   const [score, setScore] = useState(0);
   const [maxScore, setMaxScore] = useState(0);
   const [discoveredCards, setDiscoveredCards] = useState([]);
-  const [cards, setCards] = useState(['a', 'b', 'c', 'd', 'e'])
   const [gameStatus, setGameStatus] = useState(null);
   const winCondition = 10;
 
@@ -50,7 +50,7 @@ function App() {
 
     // check if score matches win condition
     if (winCondition == currScore+1) {
-      setGameStatus("You won!")
+      setGameStatus(["You won!", score])
     } else {
       setGameStatus(null)
     }
@@ -67,7 +67,7 @@ function App() {
 
     // card which was discovered was picked
     if (discoveredCards.includes(card)) {
-      setGameStatus("You lost!")
+      setGameStatus(["You lost!", score])
       setScore(0);
     } else {
       // discover the card and update max score 
@@ -101,19 +101,7 @@ function App() {
   return ( 
     <>
       <Header score={score} maxScore={maxScore} />
-      <div className="cardSelection">
-        {allPokemons.map((pokemon, index) => {
-          return (
-          <Card 
-            image={pokemon.sprites.other.dream_world.front_default}
-            key={index} 
-            onClick={(e) => {checkMove(pokemon.name)}}
-            cardName={pokemon.name}
-          >
-          </Card>
-          )
-        })}
-      </div>
+      <CardSelection allPokemons={allPokemons} checkMove={checkMove} />
       <Restart restartGame={restartGame} />
       <Result gameStatus={gameStatus} />
     </>

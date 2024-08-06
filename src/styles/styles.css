@@ -14,11 +14,13 @@ body {
 	padding: 20px;
 	justify-content: center;
 	text-align: center;
-	background-color: #696969;
+	/* background-color: #696969; */
+	background-image: url("./../assets/background.jpg");
 }
 
 .header {
-	background-color: #b9bcc2;
+	background-color: lightblue;
+	opacity: 0.8;
 	display: flex;
 	width: 90vw;
 	justify-content: space-between;
@@ -47,7 +49,8 @@ body {
 .card {
 	width: 250px;
 	height: 250px;
-	background-color: #b9bcc2;
+	background-color: lightskyblue;
+	opacity: 0.9;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -56,10 +59,12 @@ body {
 
 .cardName {
 	font-size: 16px;
+	opacity: 0.8;
 	font-weight: bold;
 }
 
 .pokemonImg {
+	opacity: 0.8;
 	width: 200px;
 	height: 200px;
 }
