@@ -4,6 +4,12 @@
 	box-sizing: border-box;
 }
 
+#root {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
 body {
 	padding: 20px;
 	justify-content: center;
@@ -14,8 +20,9 @@ body {
 .header {
 	background-color: #b9bcc2;
 	display: flex;
-	width: 80vw;
+	width: 90vw;
 	justify-content: space-between;
+	align-items: center;
 	font-weight: bold;
 	font-size: 24px;
 	padding: 20px;
@@ -28,16 +35,21 @@ body {
 
 .cardSelection {
 	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 90vw;
 	flex-direction: row;
+	flex-wrap: wrap;
 	padding: 40px;
-	gap: 40px;
+	gap: 50px;
 }
 
 .card {
-	width: 200px;
-	height: 200px;
+	width: 250px;
+	height: 250px;
 	background-color: #b9bcc2;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 }
@@ -45,4 +57,16 @@ body {
 .cardName {
 	font-size: 16px;
 	font-weight: bold;
+}
+
+.pokemonImg {
+	width: 200px;
+	height: 200px;
+}
+
+.result {
+	background-color: #b9bcc2;
+	margin: 20px;
+	padding: 20px;
+	border-radius: 8px;
 }

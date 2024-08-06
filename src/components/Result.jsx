@@ -1,6 +1,6 @@
 function Result({ gameStatus }) {
   return (
-    <div>
+    <div className="result">
       {gameStatus}
     </div>
   )

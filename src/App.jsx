@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Header from "./components/Header";
 import './styles/styles.css'
 import Card from "./components/Card";
@@ -10,14 +10,39 @@ function App() {
   const [maxScore, setMaxScore] = useState(0);
   const [discoveredCards, setDiscoveredCards] = useState([]);
   const [cards, setCards] = useState(['a', 'b', 'c', 'd', 'e'])
-  const winCondition = 5;
   const [gameStatus, setGameStatus] = useState(null);
+  const winCondition = 10;
+
+  // loading pokemon data via pokeapi
+  const [allPokemons, setAllPokemons] = useState([]);
+  const [loadPoke, setLoadPoke] = useState(
+    "https://pokeapi.co/api/v2/pokemon?limit=" + winCondition
+  )
+  const getAllPokemons = async () => {
+    const res = await fetch(loadPoke);
+    const data = await res.json();
+    setLoadPoke(data.next);
+
+    function createPokemonObject(result) {
+      result.forEach(async (pokemon) => {
+        const pokeRes = await fetch(pokemon.url)
+        const pokeData = await pokeRes.json();
+        setAllPokemons(
+          (currentList) => [...currentList, pokeData]
+        )
+      })
+    }
+    createPokemonObject(data.results)
+  }
+
+  useEffect(() => {
+    getAllPokemons();
+  }, []);
 
   const discoverCard = (card) => {
     const currScore = score;
     setScore(currScore+1);
     
-    console.log('scores', currScore, maxScore)
     // update max score if score is greater than max score
     if (currScore+1 >= maxScore) {
       setMaxScore(currScore+1);
@@ -25,7 +50,6 @@ function App() {
 
     // check if score matches win condition
     if (winCondition == currScore+1) {
-      console.log('won game');
       setGameStatus("You won!")
     } else {
       setGameStatus(null)
@@ -33,7 +57,6 @@ function App() {
 
     setDiscoveredCards(prevCards => [...prevCards, card]);
     shuffle();
-    console.log('discovered cards:', discoveredCards)
   }
 
   const checkMove = (card) => {
@@ -44,7 +67,6 @@ function App() {
 
     // card which was discovered was picked
     if (discoveredCards.includes(card)) {
-      console.log("lost game");
       setGameStatus("You lost!")
       setScore(0);
     } else {
@@ -60,7 +82,7 @@ function App() {
   }
 
   const shuffle = () => {
-    let currentIndex = cards.length;
+    let currentIndex = allPokemons.length;
     
     // While there remain elements to shuffle...
     while (currentIndex != 0) {
@@ -70,26 +92,26 @@ function App() {
       currentIndex--;
   
       // And swap it with the current element.
-      [cards[currentIndex], cards[randomIndex]] = [
-        cards[randomIndex], cards[currentIndex]];
+      [allPokemons[currentIndex], allPokemons[randomIndex]] = [
+        allPokemons[randomIndex], allPokemons[currentIndex]];
     }
-    setCards(cards)
+    setAllPokemons(allPokemons)
   }
 
   return ( 
     <>
       <Header score={score} maxScore={maxScore} />
       <div className="cardSelection">
-        {cards.map((card) => {
+        {allPokemons.map((pokemon, index) => {
           return (
           <Card 
-            key={card} 
-            onClick={(e) => {checkMove(card)}}
-            cardName={card}
+            image={pokemon.sprites.other.dream_world.front_default}
+            key={index} 
+            onClick={(e) => {checkMove(pokemon.name)}}
+            cardName={pokemon.name}
           >
           </Card>
           )
-
         })}
       </div>
       <Restart restartGame={restartGame} />
