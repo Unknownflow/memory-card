@@ -9,7 +9,7 @@ function Card({ image, cardName, onClick }) {
           <img className="pokemonImg" src={image} alt={cardName} />
         </div>
         <div>
-          <p className="cardName">{ cardName }</p>
+          <p className="cardName">{cardName}</p>
         </div>
       </div>
     </>

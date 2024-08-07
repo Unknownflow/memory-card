@@ -11,33 +11,34 @@ function App() {
   const [maxScore, setMaxScore] = useState(0);
   const [discoveredCards, setDiscoveredCards] = useState([]);
   const [gameStatus, setGameStatus] = useState(null);
-  const winCondition = 10;
+  const [winCondition, setWinCondition] = useState(10);
 
   // loading pokemon data via pokeapi
   const [allPokemons, setAllPokemons] = useState([]);
   const [loadPoke, setLoadPoke] = useState(
     "https://pokeapi.co/api/v2/pokemon?limit=" + winCondition
   )
-  const getAllPokemons = async () => {
-    const res = await fetch(loadPoke);
-    const data = await res.json();
-    setLoadPoke(data.next);
-
-    function createPokemonObject(result) {
-      result.forEach(async (pokemon) => {
-        const pokeRes = await fetch(pokemon.url)
-        const pokeData = await pokeRes.json();
-        setAllPokemons(
-          (currentList) => [...currentList, pokeData]
-        )
-      })
-    }
-    createPokemonObject(data.results)
-  }
 
   useEffect(() => {
+    async function getAllPokemons() {
+      const res = await fetch(loadPoke);
+      const data = await res.json();
+      setLoadPoke(data.next);
+
+      function createPokemonObject(result) {
+        result.forEach(async (pokemon) => {
+          const pokeRes = await fetch(pokemon.url)
+          const pokeData = await pokeRes.json();
+          setAllPokemons(
+            (currentList) => [...currentList, pokeData]
+          )
+        })
+      }
+      createPokemonObject(data.results)
+    }
+
     getAllPokemons();
-  }, []);
+  }, [winCondition]);
 
   const discoverCard = (card) => {
     const currScore = score;
@@ -60,19 +61,19 @@ function App() {
   }
 
   const checkMove = (card) => {
-    // disallow any moves to be made if game is lost or won
-    if (gameStatus == "You lost!" || gameStatus == "You won!") {
-      return;
+    if (gameStatus == null) {
+      
+      // card which was discovered was picked
+      if (discoveredCards.includes(card)) {
+        setGameStatus(["You lost!", score])
+        setScore(0);
+      } else {
+        // discover the card and update max score 
+        discoverCard(card);
+      }
     }
 
-    // card which was discovered was picked
-    if (discoveredCards.includes(card)) {
-      setGameStatus(["You lost!", score])
-      setScore(0);
-    } else {
-      // discover the card and update max score 
-      discoverCard(card);
-    }
+    return;
   }
 
   const restartGame = () => {
@@ -98,12 +99,31 @@ function App() {
     setAllPokemons(allPokemons)
   }
 
+  const updateGameBoard = (winConditionInput) => {
+    if (winConditionInput != winCondition) {
+      setAllPokemons([]);
+      setWinCondition(winConditionInput)
+      setLoadPoke("https://pokeapi.co/api/v2/pokemon?limit=" + winConditionInput)
+    }
+  }
+
   return ( 
     <>
-      <Header score={score} maxScore={maxScore} />
-      <CardSelection allPokemons={allPokemons} checkMove={checkMove} />
-      <Restart restartGame={restartGame} />
-      <Result gameStatus={gameStatus} />
+      <Header
+        score={score} 
+        maxScore={maxScore} 
+        updateGameBoard={updateGameBoard}
+      />
+      <CardSelection 
+        allPokemons={allPokemons} 
+        checkMove={checkMove} 
+      />
+      <Restart 
+        restartGame={restartGame} 
+      />
+      <Result 
+        gameStatus={gameStatus} 
+      />
     </>
   )
 }

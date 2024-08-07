@@ -61,6 +61,7 @@ body {
 	font-size: 16px;
 	opacity: 0.8;
 	font-weight: bold;
+	text-transform: capitalize;
 }
 
 .pokemonImg {
@@ -74,4 +75,14 @@ body {
 	margin: 20px;
 	padding: 20px;
 	border-radius: 8px;
+}
+
+.difficultyChoice {
+	display: flex;
+	flex-direction: row;
+	gap: 40px;
+}
+
+.difficultyChoiceButton {
+	padding: 10px;
 }
