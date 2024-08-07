@@ -11,7 +11,7 @@ function App() {
   const [maxScore, setMaxScore] = useState(0);
   const [discoveredCards, setDiscoveredCards] = useState([]);
   const [gameStatus, setGameStatus] = useState(null);
-  const [winCondition, setWinCondition] = useState(10);
+  const [winCondition, setWinCondition] = useState(6);
 
   // loading pokemon data via pokeapi
   const [allPokemons, setAllPokemons] = useState([]);

@@ -3,19 +3,19 @@ function Difficulty({updateGameBoard}) {
     <div className="difficultyChoice">
       <button 
         className="difficultyChoiceButton"
-        onClick={(e) => updateGameBoard(5)}
+        onClick={(e) => updateGameBoard(6)}
       >
           Easy
       </button>
       <button 
         className="difficultyChoiceButton"
-        onClick={(e) => updateGameBoard(10)}
+        onClick={(e) => updateGameBoard(12)}
       >
           Medium
       </button>
       <button         
         className="difficultyChoiceButton"
-        onClick={(e) => updateGameBoard(15)}
+        onClick={(e) => updateGameBoard(18)}
       >
         Hard
       </button>
